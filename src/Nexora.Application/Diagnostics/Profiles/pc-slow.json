@@ -1,0 +1,181 @@
+{
+  // Symptom profile: "PC is slow" (F5, ADR-0006). Pure data; see outlook-freeze.json for the conventions.
+  "id": "pc-slow",
+  "name": "PC is slow",
+  "description": "Looks at CPU, memory and disk space, the busiest processes, start-up items, pending restarts, uptime and drive health.",
+  "version": 1,
+  "collectors": [
+    { "id": "system-resources",  "required": true,  "timeoutSeconds": 30 },
+    { "id": "pc-slow-processes", "required": true,  "timeoutSeconds": 30 },
+    { "id": "pc-slow-startup",   "required": false, "timeoutSeconds": 40 },
+    { "id": "pending-reboot",    "required": false, "timeoutSeconds": 30 }
+  ],
+  "rules": [
+    {
+      "id": "cpu-pressure",
+      "cause": "The processor is busy (over 90% load) at the moment of the check.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "system-resources.cpu.loadPercent", "op": "gt", "value": 90 },
+      "evidence": [
+        { "label": "CPU load", "path": "system-resources.cpu.loadPercent", "format": "percent" },
+        { "label": "Busiest processes", "path": "pc-slow-processes.topCpu[*].name" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "memory-pressure",
+      "cause": "The PC is short of memory (over 90% used), so Windows swaps to disk and everything slows down.",
+      "severity": "warning", "confidence": "high",
+      "when": { "path": "system-resources.memory.usedPercent", "op": "gt", "value": 90 },
+      "evidence": [
+        { "label": "Memory used", "path": "system-resources.memory.usedPercent", "format": "percent" },
+        { "label": "Page file used", "path": "system-resources.memory.pageFileUsedPercent", "format": "percent" },
+        { "label": "Largest memory users", "path": "pc-slow-processes.topMemory[*].name" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Close heavy programs or add memory",
+          "instructions": "Ask the user to close programs and browser tabs they do not need. If this happens daily, the PC needs more memory." }
+      ]
+    },
+    {
+      "id": "system-drive-almost-full",
+      "cause": "The system drive is almost full (under 5% free). Windows needs free space to work.",
+      "severity": "critical", "confidence": "high",
+      "when": { "path": "system-resources.disk.systemDriveFreePercent", "op": "lt", "value": 5 },
+      "evidence": [
+        { "label": "Free space on the system drive", "path": "system-resources.disk.systemDriveFreePercent", "format": "percent" }
+      ],
+      "actions": [
+        { "kind": "catalog", "actionCode": "disk.cleanup", "label": "Free up disk space" }
+      ]
+    },
+    {
+      "id": "system-drive-low-space",
+      "cause": "The system drive is running low on space (under 10% free).",
+      "severity": "warning", "confidence": "high",
+      "when": { "all": [
+        { "path": "system-resources.disk.systemDriveFreePercent", "op": "lt", "value": 10 },
+        { "path": "system-resources.disk.systemDriveFreePercent", "op": "gte", "value": 5 }
+      ] },
+      "evidence": [
+        { "label": "Free space on the system drive", "path": "system-resources.disk.systemDriveFreePercent", "format": "percent" }
+      ],
+      "actions": [
+        { "kind": "catalog", "actionCode": "disk.cleanup", "label": "Free up disk space" }
+      ]
+    },
+    {
+      "id": "cpu-hog-process",
+      "cause": "One process uses more than half of the processor.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "pc-slow-processes.topCpu[*].cpuPercent", "op": "gt", "value": 50 },
+      "evidence": [
+        { "label": "Process", "path": "pc-slow-processes.topCpu[*].name" },
+        { "label": "CPU share", "path": "pc-slow-processes.topCpu[*].cpuPercent", "format": "percent" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "memory-hog-process",
+      "cause": "One process uses more than 2 GB of memory.",
+      "severity": "info", "confidence": "medium",
+      "when": { "path": "pc-slow-processes.topMemory[*].workingSetBytes", "op": "gt", "value": 2147483648 },
+      "evidence": [
+        { "label": "Process", "path": "pc-slow-processes.topMemory[*].name" },
+        { "label": "Memory", "path": "pc-slow-processes.topMemory[*].workingSetBytes", "format": "bytes" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "many-startup-items",
+      "cause": "Many programs start with Windows, which makes sign-in slow and uses memory in the background.",
+      "severity": "info", "confidence": "low",
+      "when": { "any": [
+        { "path": "pc-slow-startup.runKeysTotal", "op": "gt", "value": 25 },
+        { "path": "pc-slow-startup.startupFolderTotal", "op": "gt", "value": 10 }
+      ] },
+      "evidence": [
+        { "label": "Run-key entries", "path": "pc-slow-startup.runKeysTotal", "format": "number" },
+        { "label": "Startup folder items", "path": "pc-slow-startup.startupFolderTotal", "format": "number" },
+        { "label": "Logon tasks", "path": "pc-slow-startup.logonTasksCount", "format": "number" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Review start-up programs",
+          "instructions": "Open Task Manager > Startup apps and disable what is not needed for work." }
+      ]
+    },
+    {
+      "id": "auto-services-stopped",
+      "cause": "Many services set to start automatically are not running. Some of these normally idle (delayed or triggered services), so this is only a hint.",
+      "severity": "info", "confidence": "low",
+      "when": { "path": "pc-slow-startup.autoServicesStopped", "op": "gt", "value": 10 },
+      "evidence": [
+        { "label": "Automatic services not running", "path": "pc-slow-startup.autoServicesStopped", "format": "number" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "many-logon-tasks",
+      "cause": "Many scheduled tasks run at sign-in.",
+      "severity": "info", "confidence": "low",
+      "when": { "path": "pc-slow-startup.logonTasksCount", "op": "gt", "value": 20 },
+      "evidence": [
+        { "label": "Logon tasks", "path": "pc-slow-startup.logonTasksCount", "format": "number" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "pending-reboot",
+      "cause": "Windows is waiting for a restart to finish updates or changes, which can slow the PC down.",
+      "severity": "warning", "confidence": "high",
+      "when": { "path": "pending-reboot.pending", "op": "eq", "value": true },
+      "evidence": [
+        { "label": "Update restart pending (CBS)", "path": "pending-reboot.signals.cbsRebootPending" },
+        { "label": "Windows Update restart", "path": "pending-reboot.signals.windowsUpdateRebootRequired" },
+        { "label": "Pending file renames", "path": "pending-reboot.signals.pendingFileRenameOperations" }
+      ],
+      "actions": [
+        { "kind": "catalog", "actionCode": "power.restart", "params": { "delayMinutes": 5, "message": "Your IT Service Desk will restart this PC in 5 minutes to finish updates. Please save your work." },
+          "label": "Restart the PC in 5 minutes" }
+      ]
+    },
+    {
+      "id": "long-uptime",
+      "cause": "The PC has not been restarted for more than 30 days.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "pc-slow-startup.uptime.days", "op": "gt", "value": 30 },
+      "evidence": [
+        { "label": "Days since restart", "path": "pc-slow-startup.uptime.days", "format": "number" }
+      ],
+      "actions": [
+        { "kind": "catalog", "actionCode": "power.restart", "params": { "delayMinutes": 5, "message": "Your IT Service Desk will restart this PC in 5 minutes. Please save your work." },
+          "label": "Restart the PC in 5 minutes" }
+      ]
+    },
+    {
+      "id": "drive-health-critical",
+      "cause": "A drive in this PC reports Critical health; a failing drive makes the whole PC slow.",
+      "severity": "critical", "confidence": "high",
+      "when": { "path": "server:diskHealth.worstStatus", "op": "eq", "value": "Critical" },
+      "evidence": [
+        { "label": "Drive", "path": "server:diskHealth.drives[status=Critical].model" },
+        { "label": "Health", "path": "server:diskHealth.drives[status=Critical].healthPercent", "format": "percent" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Back up and replace the drive",
+          "instructions": "Open the Drive health tab for details. Back up the user's data now and plan a replacement." }
+      ]
+    },
+    {
+      "id": "drive-health-warning",
+      "cause": "A drive in this PC reports Warning health.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "server:diskHealth.worstStatus", "op": "eq", "value": "Warning" },
+      "evidence": [
+        { "label": "Drive", "path": "server:diskHealth.drives[status=Warning].model" },
+        { "label": "Health", "path": "server:diskHealth.drives[status=Warning].healthPercent", "format": "percent" }
+      ],
+      "actions": []
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+    "schema":  1,
+    "collector":  "outlook-profile",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  true,
+    "incompleteReason":  "time budget",
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  25012,
+    "userScope":  "none",
+    "profiles":  {
+                     "count":  null,
+                     "cachedMode":  null,
+                     "downloadSharedFolders":  null,
+                     "sharedMailboxesCached":  null,
+                     "additionalMailboxes":  null,
+                     "ostCount":  null,
+                     "exchangeCachedModeMonths":  null
+                 },
+    "perUser":  [
+
+                ]
+}

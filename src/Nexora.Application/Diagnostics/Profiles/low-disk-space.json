@@ -1,0 +1,42 @@
+{
+  "id": "low-disk-space",
+  "name": "Low disk space",
+  "description": "Checks free space on the Windows system volume.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "system-resources",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "space-low",
+      "cause": "The Windows volume has less than 10% free space.",
+      "severity": "warning",
+      "confidence": "high",
+      "when": {
+        "path": "system-resources.disk.systemDriveFreePercent",
+        "op": "lt",
+        "value": 10
+      },
+      "needs": [
+        "system-resources.disk.systemDriveFreePercent"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "system-resources.disk.systemDriveFreePercent"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Review logical volumes in Storage and user data in Profiles. Use the approved disk cleanup action after reviewing its scope."
+        }
+      ]
+    }
+  ]
+}

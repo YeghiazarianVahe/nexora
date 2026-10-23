@@ -1,0 +1,58 @@
+{
+    "schema":  1,
+    "collector":  "outlook-addins",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "userScope":  "partial",
+    "addins":  [
+                   {
+                       "progId":  "UCAddin.LyncAddin.1",
+                       "description":  "Skype Meeting Add-in for Microsoft Office",
+                       "loadBehavior":  3,
+                       "scope":  "machine",
+                       "wow6432":  false
+                   },
+                   {
+                       "progId":  "VendorCrm.OutlookAddIn",
+                       "description":  "Vendor CRM Connector",
+                       "loadBehavior":  3,
+                       "manifestHint":  "file:///C:/Program Files/VendorCrm/VendorCrm.vsto|vstolocal",
+                       "scope":  "user",
+                       "user":  "jdoe",
+                       "wow6432":  false
+                   },
+                   {
+                       "progId":  "OldScanner.Addin",
+                       "description":  "Scan to mail",
+                       "loadBehavior":  2,
+                       "scope":  "machine",
+                       "wow6432":  true
+                   }
+               ],
+    "resiliency":  {
+                       "disabledItems":  [
+                                             {
+                                                 "name":  "VendorCrm.OutlookAddIn | Vendor CRM Connector",
+                                                 "user":  "jdoe"
+                                             }
+                                         ],
+                       "slowAddins":  [
+                                          {
+                                              "progId":  "VendorCrm.OutlookAddIn",
+                                              "durationMs":  9400,
+                                              "user":  "jdoe"
+                                          },
+                                          {
+                                              "progId":  "Other.Addin",
+                                              "durationMs":  null,
+                                              "user":  "jdoe"
+                                          }
+                                      ]
+                   }
+}

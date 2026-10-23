@@ -1,0 +1,74 @@
+{
+  "id": "windows-update",
+  "name": "Windows update issue",
+  "description": "Checks pending reboot and Windows Update service state.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "workstation-checks",
+      "required": true,
+      "timeoutSeconds": 25
+    },
+    {
+      "id": "pending-reboot",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "update-reboot",
+      "cause": "Windows reports a pending reboot; updates may not finish until restart.",
+      "severity": "warning",
+      "confidence": "high",
+      "when": {
+        "path": "pending-reboot.pending",
+        "op": "eq",
+        "value": true
+      },
+      "needs": [
+        "pending-reboot.pending"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "pending-reboot.pending"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Ask the user to save work and schedule a restart using the approved power action."
+        }
+      ]
+    },
+    {
+      "id": "update-stopped",
+      "cause": "Windows Update service is stopped. Triggered services may stop normally; this is a hint only.",
+      "severity": "warning",
+      "confidence": "low",
+      "when": {
+        "path": "workstation-checks.updateState",
+        "op": "eq",
+        "value": "Stopped"
+      },
+      "needs": [
+        "workstation-checks.updateState"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.updateState"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Review Windows Update errors and service startup type in Services. Do not change policy or disable security controls."
+        }
+      ]
+    }
+  ]
+}

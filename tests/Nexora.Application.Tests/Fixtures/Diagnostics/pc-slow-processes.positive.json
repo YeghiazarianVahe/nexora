@@ -1,0 +1,54 @@
+{
+    "schema":  1,
+    "collector":  "pc-slow-processes",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "sampleSeconds":  2.1,
+    "logicalProcessors":  8,
+    "topCpu":  [
+                   {
+                       "name":  "MsMpEng.exe",
+                       "pid":  3300,
+                       "cpuPercent":  78.4,
+                       "workingSetBytes":  400000000
+                   },
+                   {
+                       "name":  "OUTLOOK.EXE",
+                       "pid":  17176,
+                       "cpuPercent":  12,
+                       "workingSetBytes":  3221225472
+                   },
+                   {
+                       "name":  "chrome.exe",
+                       "pid":  5000,
+                       "cpuPercent":  3,
+                       "workingSetBytes":  900000000
+                   }
+               ],
+    "topMemory":  [
+                      {
+                          "name":  "OUTLOOK.EXE",
+                          "pid":  17176,
+                          "cpuPercent":  12,
+                          "workingSetBytes":  3221225472
+                      },
+                      {
+                          "name":  "chrome.exe",
+                          "pid":  5000,
+                          "cpuPercent":  3,
+                          "workingSetBytes":  900000000
+                      },
+                      {
+                          "name":  "MsMpEng.exe",
+                          "pid":  3300,
+                          "cpuPercent":  78.4,
+                          "workingSetBytes":  400000000
+                      }
+                  ]
+}

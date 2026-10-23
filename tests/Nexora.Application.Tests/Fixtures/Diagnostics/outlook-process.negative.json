@@ -1,0 +1,26 @@
+{
+    "schema":  1,
+    "collector":  "outlook-process",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "count":  1,
+    "instances":  [
+                      {
+                          "pid":  17176,
+                          "workingSetBytes":  490639360,
+                          "privateBytes":  470761472,
+                          "handleCount":  3200,
+                          "threadCount":  60,
+                          "cpuSeconds":  120.4,
+                          "responding":  true,
+                          "startTimeUtc":  "2026-10-14T06:14:16Z",
+                          "sessionId":  2
+                      }
+                  ]
+}

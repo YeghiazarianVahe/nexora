@@ -1,0 +1,45 @@
+{
+    "schema":  1,
+    "collector":  "network-probe",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+                   "invalid target skipped"
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "targets":  [
+                    {
+                        "host":  "mail.contoso.com",
+                        "resolved":  true,
+                        "dnsMs":  14,
+                        "addresses":  "10.20.30.40",
+                        "pingSent":  4,
+                        "pingReceived":  2,
+                        "lossPercent":  50,
+                        "minMs":  180,
+                        "avgMs":  450.5,
+                        "maxMs":  900,
+                        "tcp443":  {
+                                       "reachable":  false,
+                                       "ms":  null
+                                   }
+                    },
+                    {
+                        "host":  "gone.contoso.com",
+                        "resolved":  false,
+                        "dnsMs":  3000,
+                        "addresses":  {
+
+                                      },
+                        "pingSent":  0,
+                        "pingReceived":  0,
+                        "lossPercent":  null,
+                        "minMs":  null,
+                        "avgMs":  null,
+                        "maxMs":  null,
+                        "tcp443":  null
+                    }
+                ]
+}

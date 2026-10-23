@@ -1,0 +1,27 @@
+{
+    "schema":  1,
+    "collector":  "outlook-files",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "userScope":  "full",
+    "usersScanned":  1,
+    "files":  [
+                  {
+                      "user":  "jdoe",
+                      "kind":  "ost",
+                      "path":  "C:\\Users\\jdoe\\AppData\\Local\\Microsoft\\Outlook\\<email>.ost",
+                      "sizeBytes":  4294967296,
+                      "lastWriteUtc":  "2026-10-14T08:55:10Z",
+                      "onNetworkShare":  false,
+                      "driveLetter":  "C",
+                      "source":  "both",
+                      "exists":  true
+                  }
+              ]
+}

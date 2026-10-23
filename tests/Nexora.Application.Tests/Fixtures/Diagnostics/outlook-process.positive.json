@@ -1,0 +1,37 @@
+{
+    "schema":  1,
+    "collector":  "outlook-process",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "count":  2,
+    "instances":  [
+                      {
+                          "pid":  17176,
+                          "workingSetBytes":  3221225472,
+                          "privateBytes":  3500000000,
+                          "handleCount":  24037,
+                          "threadCount":  160,
+                          "cpuSeconds":  15950.9,
+                          "responding":  false,
+                          "startTimeUtc":  "2026-10-05T08:14:16Z",
+                          "sessionId":  2
+                      },
+                      {
+                          "pid":  20204,
+                          "workingSetBytes":  90000000,
+                          "privateBytes":  80000000,
+                          "handleCount":  800,
+                          "threadCount":  30,
+                          "cpuSeconds":  null,
+                          "responding":  null,
+                          "startTimeUtc":  null,
+                          "sessionId":  3
+                      }
+                  ]
+}

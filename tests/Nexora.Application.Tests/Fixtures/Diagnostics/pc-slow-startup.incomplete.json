@@ -1,0 +1,27 @@
+{
+    "schema":  1,
+    "collector":  "pc-slow-startup",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  true,
+    "incompleteReason":  "time budget",
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  25012,
+    "userScope":  "partial",
+    "runKeys":  [
+
+                ],
+    "startupFolderItems":  [
+
+                           ],
+    "runKeysTotal":  0,
+    "startupFolderTotal":  0,
+    "autoServicesStopped":  0,
+    "logonTasksCount":  null,
+    "uptime":  {
+                   "lastBootUtc":  null,
+                   "days":  null
+               }
+}

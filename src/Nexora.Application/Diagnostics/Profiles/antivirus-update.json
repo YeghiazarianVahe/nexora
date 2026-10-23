@@ -1,0 +1,42 @@
+{
+  "id": "antivirus-update",
+  "name": "Antivirus / update issue",
+  "description": "Checks Defender service and pending reboot; third-party antivirus and signature freshness remain unverified.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "workstation-checks",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "defender-stopped",
+      "cause": "Microsoft Defender service is stopped. Another managed antivirus may be installed.",
+      "severity": "warning",
+      "confidence": "low",
+      "when": {
+        "path": "workstation-checks.defenderState",
+        "op": "eq",
+        "value": "Stopped"
+      },
+      "needs": [
+        "workstation-checks.defenderState"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.defenderState"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Verify the organization's antivirus product, protection state and signature timestamp in its management console. Do not enable or disable security services automatically."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+    "schema":  1,
+    "collector":  "outlook-events",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "windowDays":  7,
+    "events":  [
+
+               ],
+    "counts":  {
+                   "crash":  0,
+                   "hang":  0,
+                   "addinSlow":  0,
+                   "dotnetOffice":  0
+               }
+}

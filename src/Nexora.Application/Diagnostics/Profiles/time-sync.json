@@ -1,0 +1,42 @@
+{
+  "id": "time-sync",
+  "name": "Time sync issue",
+  "description": "Checks Windows Time service state; does not measure clock drift.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "workstation-checks",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "time-stopped",
+      "cause": "Windows Time is stopped; time synchronization may be affected.",
+      "severity": "warning",
+      "confidence": "low",
+      "when": {
+        "path": "workstation-checks.timeState",
+        "op": "eq",
+        "value": "Stopped"
+      },
+      "needs": [
+        "workstation-checks.timeState"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.timeState"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Check Services and the approved time status diagnostic action. Verify time source and offset before resynchronizing; stopped triggered services may be normal."
+        }
+      ]
+    }
+  ]
+}

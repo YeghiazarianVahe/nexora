@@ -1,0 +1,43 @@
+{
+    "schema":  1,
+    "collector":  "system-resources",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "disk":  {
+                 "systemDriveFreePercent":  6,
+                 "volumes":  [
+                                 {
+                                     "letter":  "C",
+                                     "label":  "OS",
+                                     "sizeBytes":  255000000000,
+                                     "freeBytes":  15300000000,
+                                     "freePercent":  6
+                                 }
+                             ]
+             },
+    "memory":  {
+                   "totalBytes":  17179869184,
+                   "freeBytes":  1030792151,
+                   "usedPercent":  94,
+                   "pageFileUsedPercent":  71.5
+               },
+    "cpu":  {
+                "loadPercent":  97.5,
+                "logicalProcessors":  8
+            },
+    "search":  {
+                   "serviceState":  "Stopped",
+                   "startMode":  "Auto",
+                   "indexing":  {
+                                    "state":  null,
+                                    "itemsToIndex":  null,
+                                    "catalogSizeMB":  14200
+                                }
+               }
+}

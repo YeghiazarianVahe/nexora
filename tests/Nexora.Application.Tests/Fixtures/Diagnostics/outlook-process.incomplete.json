@@ -1,0 +1,16 @@
+{
+    "schema":  1,
+    "collector":  "outlook-process",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  true,
+    "incompleteReason":  "time budget",
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  25012,
+    "count":  0,
+    "instances":  [
+
+                  ]
+}

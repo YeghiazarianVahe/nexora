@@ -1,0 +1,31 @@
+{
+    "schema":  1,
+    "collector":  "pc-slow-startup",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "userScope":  "full",
+    "runKeys":  [
+                    {
+                        "name":  "SecurityHealth",
+                        "command":  "C:\\Windows\\system32\\SecurityHealthSystray.exe",
+                        "scope":  "machine"
+                    }
+                ],
+    "startupFolderItems":  [
+
+                           ],
+    "runKeysTotal":  1,
+    "startupFolderTotal":  0,
+    "autoServicesStopped":  2,
+    "logonTasksCount":  5,
+    "uptime":  {
+                   "lastBootUtc":  "2026-10-13T07:00:00Z",
+                   "days":  1.1
+               }
+}

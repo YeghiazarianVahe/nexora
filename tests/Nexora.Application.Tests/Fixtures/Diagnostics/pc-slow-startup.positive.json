@@ -1,0 +1,169 @@
+{
+    "schema":  1,
+    "collector":  "pc-slow-startup",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "userScope":  "partial",
+    "runKeys":  [
+                    {
+                        "name":  "App1",
+                        "command":  "C:\\Program Files\\Vendor1\\app1.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App2",
+                        "command":  "C:\\Program Files\\Vendor2\\app2.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App3",
+                        "command":  "C:\\Program Files\\Vendor3\\app3.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App4",
+                        "command":  "C:\\Program Files\\Vendor4\\app4.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App5",
+                        "command":  "C:\\Program Files\\Vendor5\\app5.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App6",
+                        "command":  "C:\\Program Files\\Vendor6\\app6.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App7",
+                        "command":  "C:\\Program Files\\Vendor7\\app7.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App8",
+                        "command":  "C:\\Program Files\\Vendor8\\app8.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App9",
+                        "command":  "C:\\Program Files\\Vendor9\\app9.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App10",
+                        "command":  "C:\\Program Files\\Vendor10\\app10.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App11",
+                        "command":  "C:\\Program Files\\Vendor11\\app11.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App12",
+                        "command":  "C:\\Program Files\\Vendor12\\app12.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App13",
+                        "command":  "C:\\Program Files\\Vendor13\\app13.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App14",
+                        "command":  "C:\\Program Files\\Vendor14\\app14.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App15",
+                        "command":  "C:\\Program Files\\Vendor15\\app15.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App16",
+                        "command":  "C:\\Program Files\\Vendor16\\app16.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App17",
+                        "command":  "C:\\Program Files\\Vendor17\\app17.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App18",
+                        "command":  "C:\\Program Files\\Vendor18\\app18.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App19",
+                        "command":  "C:\\Program Files\\Vendor19\\app19.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App20",
+                        "command":  "C:\\Program Files\\Vendor20\\app20.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App21",
+                        "command":  "C:\\Program Files\\Vendor21\\app21.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App22",
+                        "command":  "C:\\Program Files\\Vendor22\\app22.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App23",
+                        "command":  "C:\\Program Files\\Vendor23\\app23.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App24",
+                        "command":  "C:\\Program Files\\Vendor24\\app24.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App25",
+                        "command":  "C:\\Program Files\\Vendor25\\app25.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App26",
+                        "command":  "C:\\Program Files\\Vendor26\\app26.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App27",
+                        "command":  "C:\\Program Files\\Vendor27\\app27.exe",
+                        "scope":  "machine"
+                    },
+                    {
+                        "name":  "App28",
+                        "command":  "C:\\Program Files\\Vendor28\\app28.exe",
+                        "scope":  "machine"
+                    }
+                ],
+    "startupFolderItems":  [
+                               {
+                                   "name":  "Updater.lnk",
+                                   "scope":  "machine"
+                               }
+                           ],
+    "runKeysTotal":  28,
+    "startupFolderTotal":  1,
+    "autoServicesStopped":  14,
+    "logonTasksCount":  22,
+    "uptime":  {
+                   "lastBootUtc":  "2026-08-20T07:00:00Z",
+                   "days":  55.1
+               }
+}

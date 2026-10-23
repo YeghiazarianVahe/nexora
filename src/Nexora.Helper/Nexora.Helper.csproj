@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- A Windows (GUI) program: it never opens a console window, whoever starts it and however (logon task, Startup shortcut, Run key). -->
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>Nexora.Helper</AssemblyName>
+    <RootNamespace>Nexora.Helper</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Nexora.Application\Diagnostics\Collectors\*.ps1" LogicalName="Diagnostics/Collectors/%(Filename)%(Extension)" />
+    <InternalsVisibleTo Include="Nexora.Application.Tests" />
+    <ProjectReference Include="..\Nexora.Contracts\Nexora.Contracts.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Management.Infrastructure" Version="3.0.0" />
+  </ItemGroup>
+</Project>

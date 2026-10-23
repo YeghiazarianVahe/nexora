@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
+    <ProjectReference Include="..\Nexora.Domain\Nexora.Domain.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.12" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The diagnosis collectors and symptom profiles ship inside the server and are read from here, never from disk or a request. -->
+    <EmbeddedResource Include="Diagnostics\Collectors\*.ps1" LogicalName="Diagnostics/Collectors/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Diagnostics\Profiles\*.json" LogicalName="Diagnostics/Profiles/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nexora.Contracts\Nexora.Contracts.csproj" />
+  </ItemGroup>
+</Project>

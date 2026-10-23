@@ -1,0 +1,43 @@
+{
+  "Key": "DEMO_0001_0000_0000_0000_0000_0000_0001",
+  "Model": "WD Blue SN570 250GB",
+  "Serial": "DEMO_0001_0000_0000_0000_0000_0000_0001",
+  "MediaType": "NVMe",
+  "BusType": "NVMe",
+  "SizeBytes": 250056737280,
+  "HealthStatus": "Healthy",
+  "PredictFailure": false,
+  "TemperatureC": 35,
+  "MaxTemperatureC": 80,
+  "PowerOnHours": 21759,
+  "WearPercent": 0,
+  "LifeLeftPercent": 92,
+  "ReadErrors": null,
+  "WriteErrors": null,
+  "Reallocated": null,
+  "Pending": null,
+  "OfflineUncorrectable": null,
+  "CrcErrors": null,
+  "Attributes": [],
+  "Mapping": {
+    "BusTypeCode": 17,
+    "MediaTypeCode": 4,
+    "SpindleSpeed": 0,
+    "ClassSource": "bus",
+    "PhysicalMatch": "Serial",
+    "HealthSource": "nvme-smart-log",
+    "SmartMatched": false,
+    "HostSmartRecords": 1,
+    "HostDriveCount": 2
+  },
+  "Nvme": {
+    "CriticalWarning": 0,
+    "PercentageUsed": 8,
+    "AvailableSpare": 100,
+    "SpareThreshold": 10,
+    "MediaErrors": 0
+  },
+  "DriveTempWarnC": 80,
+  "DriveTempCritC": 85,
+  "LifetimeMaxTempC": null
+}

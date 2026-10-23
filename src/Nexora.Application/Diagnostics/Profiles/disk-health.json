@@ -1,0 +1,45 @@
+{
+  "id": "disk-health",
+  "name": "Disk health issue",
+  "description": "Reviews the latest stored physical disk health separately from volume free space.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "system-resources",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "disk-warning",
+      "cause": "The stored drive scan reports warning or critical health. Verify its timestamp and confidence.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "server:diskHealth.worstStatus",
+        "op": "in",
+        "value": [
+          "Warning",
+          "Critical"
+        ]
+      },
+      "needs": [
+        "server:diskHealth.worstStatus"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "server:diskHealth.worstStatus"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Open Storage, review SMART evidence and its timestamp, refresh when reachable, and verify backups before planning replacement."
+        }
+      ]
+    }
+  ]
+}

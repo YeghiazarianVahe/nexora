@@ -1,0 +1,42 @@
+{
+  "id": "print-issue",
+  "name": "Print issue",
+  "description": "Checks Print Spooler service state.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "workstation-checks",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "spooler-stopped",
+      "cause": "Print Spooler is not running; printing may be unavailable.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "workstation-checks.spoolerState",
+        "op": "ne",
+        "value": "Running"
+      },
+      "needs": [
+        "workstation-checks.spoolerState"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.spoolerState"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Open Services, review Spooler startup type and errors, then use Start or Restart with the normal confirmation flow."
+        }
+      ]
+    }
+  ]
+}

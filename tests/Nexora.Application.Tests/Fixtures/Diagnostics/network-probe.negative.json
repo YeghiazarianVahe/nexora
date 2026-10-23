@@ -1,0 +1,30 @@
+{
+    "schema":  1,
+    "collector":  "network-probe",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "targets":  [
+                    {
+                        "host":  "mail.contoso.com",
+                        "resolved":  true,
+                        "dnsMs":  14,
+                        "addresses":  "10.20.30.40",
+                        "pingSent":  4,
+                        "pingReceived":  4,
+                        "lossPercent":  0,
+                        "minMs":  1,
+                        "avgMs":  2.5,
+                        "maxMs":  4,
+                        "tcp443":  {
+                                       "reachable":  true,
+                                       "ms":  12
+                                   }
+                    }
+                ]
+}

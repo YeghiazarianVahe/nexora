@@ -1,0 +1,24 @@
+{
+    "schema":  1,
+    "collector":  "office-version",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "installed":  {
+                      "productName":  "O365ProPlusRetail",
+                      "version":  "16.0.14326.20404",
+                      "build":  "14326.20404",
+                      "channel":  "Semi-Annual Enterprise Channel",
+                      "channelRaw":  "http://officecdn.microsoft.com/pr/7ffbc6bf-bc32-4f92-8982-f9dd17fd3114",
+                      "buildReleaseDateUtc":  null,
+                      "bitness":  "x86",
+                      "updatesEnabled":  false,
+                      "lastUpdateCheckUtc":  "2026-03-01T10:00:00Z",
+                      "installType":  "ClickToRun"
+                  }
+}

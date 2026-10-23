@@ -1,0 +1,42 @@
+{
+  "id": "service-not-running",
+  "name": "Service not running",
+  "description": "Counts automatic services currently stopped; does not assume they should all run.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "workstation-checks",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "auto-stopped",
+      "cause": "One or more automatic services are stopped. Delayed and triggered services can be stopped normally.",
+      "severity": "warning",
+      "confidence": "low",
+      "when": {
+        "path": "workstation-checks.automaticStopped",
+        "op": "gt",
+        "value": 0
+      },
+      "needs": [
+        "workstation-checks.automaticStopped"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.automaticStopped"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Open Services, locate the affected service, inspect startup type and dependencies, then use Start or Restart if appropriate."
+        }
+      ]
+    }
+  ]
+}

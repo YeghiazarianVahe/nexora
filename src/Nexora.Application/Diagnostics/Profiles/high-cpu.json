@@ -1,0 +1,47 @@
+{
+  "id": "high-cpu",
+  "name": "High CPU usage",
+  "description": "Samples CPU load and ranks busy processes.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "system-resources",
+      "required": true,
+      "timeoutSeconds": 25
+    },
+    {
+      "id": "pc-slow-processes",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "cpu-load",
+      "cause": "CPU load exceeded 90% during this sample. A sustained workload may be slowing the workstation.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "system-resources.cpu.loadPercent",
+        "op": "gt",
+        "value": 90
+      },
+      "needs": [
+        "system-resources.cpu.loadPercent"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "system-resources.cpu.loadPercent"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Review Processes, identify the workload with the user, and stop only an approved application."
+        }
+      ]
+    }
+  ]
+}

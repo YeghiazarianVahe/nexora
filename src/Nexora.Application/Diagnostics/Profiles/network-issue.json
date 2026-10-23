@@ -1,0 +1,42 @@
+{
+  "id": "network-issue",
+  "name": "Internet / network issue",
+  "description": "Checks local gateway configuration; does not prove Internet reachability.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "workstation-checks",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "no-gateway",
+      "cause": "No default gateway was reported on an IP-enabled adapter. Routed connectivity may be unavailable.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "workstation-checks.gatewayConfigured",
+        "op": "eq",
+        "value": false
+      },
+      "needs": [
+        "workstation-checks.gatewayConfigured"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.gatewayConfigured"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Check network cable or Wi-Fi, address assignment, subnet and gateway. Compare with a working workstation; a VPN or isolated network may intentionally omit a gateway."
+        }
+      ]
+    }
+  ]
+}

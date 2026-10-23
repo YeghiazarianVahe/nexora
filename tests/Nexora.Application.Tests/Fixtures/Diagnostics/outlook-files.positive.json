@@ -1,0 +1,60 @@
+{
+    "schema":  1,
+    "collector":  "outlook-files",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "userScope":  "partial",
+    "usersScanned":  3,
+    "files":  [
+                  {
+                      "user":  "jdoe",
+                      "kind":  "ost",
+                      "path":  "C:\\Users\\jdoe\\AppData\\Local\\Microsoft\\Outlook\\<email>.ost",
+                      "sizeBytes":  66571993088,
+                      "lastWriteUtc":  "2026-10-14T08:55:10Z",
+                      "onNetworkShare":  false,
+                      "driveLetter":  "C",
+                      "source":  "both",
+                      "exists":  true
+                  },
+                  {
+                      "user":  "jdoe",
+                      "kind":  "pst",
+                      "path":  "\\\\fileserver01\\home$\\jdoe\\archive.pst",
+                      "sizeBytes":  null,
+                      "lastWriteUtc":  null,
+                      "onNetworkShare":  true,
+                      "driveLetter":  null,
+                      "source":  "profile",
+                      "exists":  null
+                  },
+                  {
+                      "user":  "jdoe",
+                      "kind":  "pst",
+                      "path":  "Z:\\Mail\\old-2019.pst",
+                      "sizeBytes":  null,
+                      "lastWriteUtc":  null,
+                      "onNetworkShare":  true,
+                      "driveLetter":  "Z",
+                      "source":  "profile",
+                      "exists":  null
+                  },
+                  {
+                      "user":  "asmith",
+                      "kind":  "nst",
+                      "path":  "C:\\Users\\asmith\\AppData\\Local\\Microsoft\\Outlook\\group.nst",
+                      "sizeBytes":  52428800,
+                      "lastWriteUtc":  "2026-10-13T12:00:00Z",
+                      "onNetworkShare":  false,
+                      "driveLetter":  "C",
+                      "source":  "filesystem",
+                      "exists":  true
+                  }
+              ]
+}

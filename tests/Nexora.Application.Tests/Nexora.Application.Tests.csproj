@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><IsPackable>false</IsPackable></PropertyGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <ProjectReference Include="..\..\src\Nexora.Application\Nexora.Application.csproj" />
+    <ProjectReference Include="..\..\src\Nexora.Infrastructure\Nexora.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0" />
+    <PackageReference Include="FluentAssertions" Version="6.12.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Fixtures\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\qa-reports\wks-ph65-native-nvme.json" Link="Fixtures\HistoricalNative\wks-ph65-native-nvme.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\qa-reports\wks-tb011-native-nvme.json" Link="Fixtures\HistoricalNative\wks-tb011-native-nvme.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Nexora.Helper\Nexora.Helper.csproj" />
+  </ItemGroup>
+</Project>

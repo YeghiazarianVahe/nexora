@@ -1,0 +1,42 @@
+{
+    "schema":  1,
+    "collector":  "pc-slow-processes",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "sampleSeconds":  2,
+    "logicalProcessors":  8,
+    "topCpu":  [
+                   {
+                       "name":  "System",
+                       "pid":  4,
+                       "cpuPercent":  1.2,
+                       "workingSetBytes":  77000000
+                   },
+                   {
+                       "name":  "OUTLOOK.EXE",
+                       "pid":  17176,
+                       "cpuPercent":  0.8,
+                       "workingSetBytes":  490639360
+                   }
+               ],
+    "topMemory":  [
+                      {
+                          "name":  "OUTLOOK.EXE",
+                          "pid":  17176,
+                          "cpuPercent":  0.8,
+                          "workingSetBytes":  490639360
+                      },
+                      {
+                          "name":  "System",
+                          "pid":  4,
+                          "cpuPercent":  1.2,
+                          "workingSetBytes":  77000000
+                      }
+                  ]
+}

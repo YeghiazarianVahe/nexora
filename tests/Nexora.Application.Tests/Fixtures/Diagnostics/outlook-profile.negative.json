@@ -1,0 +1,31 @@
+{
+    "schema":  1,
+    "collector":  "outlook-profile",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "userScope":  "full",
+    "profiles":  {
+                     "count":  1,
+                     "cachedMode":  true,
+                     "downloadSharedFolders":  false,
+                     "sharedMailboxesCached":  null,
+                     "additionalMailboxes":  null,
+                     "ostCount":  1,
+                     "exchangeCachedModeMonths":  12
+                 },
+    "perUser":  [
+                    {
+                        "user":  "jdoe",
+                        "profileCount":  1,
+                        "cachedMode":  true,
+                        "ostCount":  1,
+                        "exchangeCachedModeMonths":  12
+                    }
+                ]
+}

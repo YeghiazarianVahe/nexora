@@ -1,0 +1,393 @@
+{
+  // Symptom profile: "Outlook freezes / not responding" (F5, ADR-0006). Pure data: the engine applies these rules to what the collectors return.
+  // Thresholds live here, not in code. Sizes are bytes (50 GiB = 53687091200, 20 GiB = 21474836480, 2 GiB = 2147483648).
+  // "required" collectors: a rule that reads one of them is reported as "not evaluated" (insufficient data) when it did not deliver.
+  "id": "outlook-freeze",
+  "name": "Outlook freezes / not responding",
+  "description": "Looks at the mail files, add-ins, crash and hang events, the Outlook process, Office version, profile settings and the PC's resources.",
+  "version": 1,
+  "collectors": [
+    { "id": "outlook-files",    "required": true,  "timeoutSeconds": 60 },
+    { "id": "outlook-addins",   "required": true,  "timeoutSeconds": 40 },
+    { "id": "outlook-events",   "required": true,  "timeoutSeconds": 60 },
+    { "id": "outlook-process",  "required": true,  "timeoutSeconds": 30 },
+    { "id": "system-resources", "required": true,  "timeoutSeconds": 30 },
+    { "id": "office-version",   "required": false, "timeoutSeconds": 30 },
+    { "id": "outlook-profile",  "required": false, "timeoutSeconds": 30 },
+    { "id": "network-probe",    "required": true,  "timeoutSeconds": 40 }
+  ],
+  "rules": [
+    {
+      "id": "ost-oversize",
+      "cause": "The Outlook data file (OST) is very large (over 50 GB), which makes Outlook slow and prone to freezing.",
+      "severity": "warning", "confidence": "high",
+      "when": { "path": "outlook-files.files[kind=ost].sizeBytes", "op": "gt", "value": 53687091200 },
+      "evidence": [
+        { "label": "OST file", "path": "outlook-files.files[kind=ost].path" },
+        { "label": "OST size", "path": "outlook-files.files[kind=ost].sizeBytes", "format": "bytes" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Shrink or rebuild the OST",
+          "instructions": "Ask the user to close Outlook. Reduce the 'Mail to keep offline' slider (File > Account Settings > Change > Cached Exchange Mode) to 3-12 months, or rename the OST so Outlook rebuilds it on the next start. Rebuilding needs enough free space and a good connection to Exchange." }
+      ]
+    },
+    {
+      "id": "pst-oversize",
+      "cause": "A PST archive is very large (over 20 GB); big PST files are fragile and slow.",
+      "severity": "warning", "confidence": "high",
+      "when": { "path": "outlook-files.files[kind=pst].sizeBytes", "op": "gt", "value": 21474836480 },
+      "evidence": [
+        { "label": "PST file", "path": "outlook-files.files[kind=pst].path" },
+        { "label": "PST size", "path": "outlook-files.files[kind=pst].sizeBytes", "format": "bytes" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Split or retire the PST",
+          "instructions": "Move old items to the online archive or split the PST into smaller files (yearly). Run the Inbox Repair tool (scanpst) if Outlook reports errors for this file." }
+      ]
+    },
+    {
+      "id": "pst-on-network-share",
+      "cause": "A PST file is opened from a network share. Outlook freezes when the share is slow or the connection drops; Microsoft does not support PST files on network shares.",
+      "severity": "warning", "confidence": "high",
+      "when": { "path": "outlook-files.files[onNetworkShare=true].kind", "op": "eq", "value": "pst" },
+      "evidence": [
+        { "label": "File on network", "path": "outlook-files.files[onNetworkShare=true].path" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Move the PST to the local disk",
+          "instructions": "Close Outlook, copy the PST to a local folder (for example Documents\\Outlook Files), then in Outlook use File > Open & Export > Open Outlook Data File to attach the local copy and remove the network one." }
+      ]
+    },
+    {
+      "id": "ost-drive-low-space",
+      "cause": "The drive that holds the OST file is almost full (under 10% free). Outlook slows down and can freeze when it cannot grow its data file.",
+      "severity": "critical", "confidence": "high",
+      "when": {
+        "path": "system-resources.disk.volumes[*].freePercent", "op": "lt", "value": 10,
+        "join": { "key": "letter", "with": "outlook-files.files[kind=ost].driveLetter" }
+      },
+      "evidence": [
+        { "label": "Free space on the OST drive", "path": "system-resources.disk.volumes[*].freePercent", "format": "percent",
+          "join": { "key": "letter", "with": "outlook-files.files[kind=ost].driveLetter" } }
+      ],
+      "actions": [
+        { "kind": "catalog", "actionCode": "disk.cleanup", "label": "Free up disk space" },
+        { "kind": "manual", "label": "Free space manually",
+          "instructions": "Remove large unused files or move them off the drive. Check the user profile sizes on the Profiles tab for old profiles." }
+      ]
+    },
+    {
+      "id": "addin-slow-reported",
+      "cause": "Outlook itself measured one or more add-ins as slow to start (its resiliency list).",
+      "severity": "warning", "confidence": "high",
+      "when": { "path": "outlook-addins.resiliency.slowAddins", "op": "countGt", "value": 0 },
+      "evidence": [
+        { "label": "Slow add-in", "path": "outlook-addins.resiliency.slowAddins[*].progId" },
+        { "label": "Load time (ms)", "path": "outlook-addins.resiliency.slowAddins[*].durationMs", "format": "number" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Disable the slow add-in",
+          "instructions": "In Outlook open File > Options > Add-ins > Manage: COM Add-ins > Go, and untick the add-in. If it is needed for work, ask the vendor for an update." }
+      ]
+    },
+    {
+      "id": "addin-flagged-disabled",
+      "cause": "Outlook disabled one or more items after they caused problems (its 'disabled items' list).",
+      "severity": "warning", "confidence": "high",
+      "when": { "path": "outlook-addins.resiliency.disabledItems", "op": "countGt", "value": 0 },
+      "evidence": [
+        { "label": "Disabled item", "path": "outlook-addins.resiliency.disabledItems[*].name" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Review disabled items",
+          "instructions": "In Outlook open File > Options > Add-ins > Manage: Disabled Items > Go. Remove the items that are no longer needed; update or reinstall the ones that are." }
+      ]
+    },
+    {
+      "id": "addin-load-failed",
+      "cause": "An add-in is registered to start with Outlook but is not connected (LoadBehavior 2): Outlook could not load it or turned it off after a crash.",
+      "severity": "info", "confidence": "medium",
+      "when": { "path": "outlook-addins.addins[loadBehavior=2].progId", "op": "exists" },
+      "evidence": [
+        { "label": "Add-in", "path": "outlook-addins.addins[loadBehavior=2].progId" },
+        { "label": "Description", "path": "outlook-addins.addins[loadBehavior=2].description" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Repair or remove the add-in",
+          "instructions": "Reinstall the add-in or remove it if it is not used. Do not set its registry LoadBehavior by hand." }
+      ]
+    },
+    {
+      "id": "addin-known-heavy",
+      "cause": "An add-in that is known to slow Outlook down is loaded. (The list of add-ins is data in this profile: edit it as experience grows.)",
+      "severity": "info", "confidence": "low",
+      "when": {
+        "path": "outlook-addins.addins[loadBehavior=3].progId", "op": "in",
+        "value": [
+          "UCAddin.LyncAddin.1",
+          "PDFMOutlook.PDFMOutlook",
+          "OneNote.OutlookAddin",
+          "Microsoft.VbaAddinForOutlook.1"
+        ]
+      },
+      "evidence": [
+        { "label": "Loaded add-in", "path": "outlook-addins.addins[loadBehavior=3].progId" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Try without the add-in",
+          "instructions": "Untick the add-in in File > Options > Add-ins > COM Add-ins and check whether Outlook freezes less. Re-enable it if it makes no difference." }
+      ]
+    },
+    {
+      "id": "outlook-crashes",
+      "cause": "Outlook crashed three or more times in the last 7 days.",
+      "severity": "critical", "confidence": "high",
+      "when": { "path": "outlook-events.counts.crash", "op": "gte", "value": 3 },
+      "evidence": [
+        { "label": "Crashes in 7 days", "path": "outlook-events.counts.crash", "format": "number" },
+        { "label": "Faulting module", "path": "outlook-events.events[id=1000].faultingModule" },
+        { "label": "Exception code", "path": "outlook-events.events[id=1000].exceptionCode" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Start Outlook in safe mode",
+          "instructions": "Run outlook.exe /safe. If it is stable, an add-in is the cause: enable the add-ins one by one. The faulting module above names the likely culprit." }
+      ]
+    },
+    {
+      "id": "outlook-hangs",
+      "cause": "Windows recorded Outlook as not responding (event 1002) in the last 7 days.",
+      "severity": "warning", "confidence": "high",
+      "when": { "path": "outlook-events.counts.hang", "op": "gte", "value": 1 },
+      "evidence": [
+        { "label": "Hangs in 7 days", "path": "outlook-events.counts.hang", "format": "number" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "addin-slow-events",
+      "cause": "Outlook logged slow add-in start-up events (45/59) in the last 7 days.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "outlook-events.counts.addinSlow", "op": "gte", "value": 1 },
+      "evidence": [
+        { "label": "Slow add-in events", "path": "outlook-events.counts.addinSlow", "format": "number" },
+        { "label": "Detail", "path": "outlook-events.events[provider=Outlook].messageShort" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "office-dotnet-errors",
+      "cause": "Office add-ins logged repeated .NET errors that mention Outlook.",
+      "severity": "info", "confidence": "low",
+      "when": { "path": "outlook-events.counts.dotnetOffice", "op": "gte", "value": 3 },
+      "evidence": [
+        { "label": ".NET errors in 7 days", "path": "outlook-events.counts.dotnetOffice", "format": "number" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "outlook-not-responding-now",
+      "cause": "Outlook is not responding right now.",
+      "severity": "critical", "confidence": "high",
+      "when": { "path": "outlook-process.instances[*].responding", "op": "eq", "value": false },
+      "evidence": [
+        { "label": "Process id", "path": "outlook-process.instances[responding=false].pid", "format": "number" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Wait briefly, then restart Outlook",
+          "instructions": "If the window does not recover after a minute, ask the user to save work and end the Outlook process, then start Outlook again (safe mode if it repeats)." }
+      ]
+    },
+    {
+      "id": "outlook-memory-high",
+      "cause": "The Outlook process uses more than 2 GB of memory.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "outlook-process.instances[*].workingSetBytes", "op": "gt", "value": 2147483648 },
+      "evidence": [
+        { "label": "Outlook memory", "path": "outlook-process.instances[*].workingSetBytes", "format": "bytes" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Restart Outlook",
+          "instructions": "A restart frees the memory. If it grows again quickly, look at add-ins and at the size of the mailbox and OST." }
+      ]
+    },
+    {
+      "id": "outlook-handles-high",
+      "cause": "The Outlook process holds more than 10,000 handles, which points to a leak in Outlook or one of its add-ins.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "outlook-process.instances[*].handleCount", "op": "gt", "value": 10000 },
+      "evidence": [
+        { "label": "Handles", "path": "outlook-process.instances[*].handleCount", "format": "number" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "outlook-multiple-instances",
+      "cause": "More than one Outlook process is running (for example in several user sessions).",
+      "severity": "info", "confidence": "medium",
+      "when": { "path": "outlook-process.count", "op": "gt", "value": 1 },
+      "evidence": [
+        { "label": "Outlook processes", "path": "outlook-process.count", "format": "number" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "office-build-outdated",
+      "cause": "The Office build is old. Known Outlook freezes are fixed in newer builds.",
+      "severity": "warning", "confidence": "medium",
+      // DATA TO MAINTAIN: "older than about 6 months" is expressed as a build number, because the PC reports a build, not a date. Raise the value
+      // (the major part of the build, for example 19000) every few months as new builds ship.
+      "when": { "all": [
+        { "path": "office-version.installed.installType", "op": "eq", "value": "ClickToRun" },
+        { "path": "office-version.installed.build", "op": "lt", "value": 19000 }
+      ] },
+      "evidence": [
+        { "label": "Office build", "path": "office-version.installed.build" },
+        { "label": "Channel", "path": "office-version.installed.channel" },
+        { "label": "Updates enabled", "path": "office-version.installed.updatesEnabled" },
+        { "label": "Last update check", "path": "office-version.installed.lastUpdateCheckUtc" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Update Office",
+          "instructions": "In any Office app: File > Account > Update Options > Update Now. If updates are disabled by policy, ask the team that manages Office updates." }
+      ]
+    },
+    {
+      "id": "office-channel-noncurrent",
+      "cause": "Office is on an update channel that is not Current or Monthly Enterprise, so fixes reach this PC later (or, for preview channels, it runs less tested builds).",
+      "severity": "info", "confidence": "low",
+      "when": { "all": [
+        { "path": "office-version.installed.installType", "op": "eq", "value": "ClickToRun" },
+        { "not": { "path": "office-version.installed.channel", "op": "in", "value": ["Current Channel", "Monthly Enterprise Channel"] } }
+      ] },
+      "evidence": [
+        { "label": "Channel", "path": "office-version.installed.channel" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "cached-mode-off",
+      "cause": "Outlook is not using Cached Exchange Mode, so every action waits for the server. Network delays then show up as freezes.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "outlook-profile.profiles.cachedMode", "op": "eq", "value": false },
+      "evidence": [
+        { "label": "Cached mode", "path": "outlook-profile.profiles.cachedMode" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Turn on Cached Exchange Mode",
+          "instructions": "File > Account Settings > Account Settings > Change > tick 'Use Cached Exchange Mode'. Outlook restarts and builds the OST." }
+      ]
+    },
+    {
+      "id": "shared-mailboxes-cached",
+      "cause": "Outlook downloads shared folders and mailboxes into the cache. With many shared mailboxes this makes Outlook slow and the OST large. (The PC does not report the number of shared mailboxes; this is judged from the setting and the OST count.)",
+      "severity": "info", "confidence": "low",
+      "when": { "any": [
+        { "path": "outlook-profile.profiles.downloadSharedFolders", "op": "eq", "value": true },
+        { "path": "outlook-profile.profiles.ostCount", "op": "gte", "value": 10 }
+      ] },
+      "evidence": [
+        { "label": "Download shared folders", "path": "outlook-profile.profiles.downloadSharedFolders" },
+        { "label": "OST files in the profile", "path": "outlook-profile.profiles.ostCount", "format": "number" },
+        { "label": "Mail kept offline (months, 0 = all)", "path": "outlook-profile.profiles.exchangeCachedModeMonths", "format": "number" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Stop caching shared mailboxes",
+          "instructions": "File > Account Settings > Change > More Settings > Advanced: untick 'Download shared folders' (and remove shared mailboxes that are not needed from the profile)." }
+      ]
+    },
+    {
+      "id": "memory-pressure",
+      "cause": "The PC is short of memory (over 90% used), so Windows swaps and Outlook stalls.",
+      "severity": "warning", "confidence": "high",
+      "when": { "path": "system-resources.memory.usedPercent", "op": "gt", "value": 90 },
+      "evidence": [
+        { "label": "Memory used", "path": "system-resources.memory.usedPercent", "format": "percent" },
+        { "label": "Page file used", "path": "system-resources.memory.pageFileUsedPercent", "format": "percent" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "cpu-load-high",
+      "cause": "The processor is busy (over 90% load) at the moment of the check.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "system-resources.cpu.loadPercent", "op": "gt", "value": 90 },
+      "evidence": [
+        { "label": "CPU load", "path": "system-resources.cpu.loadPercent", "format": "percent" }
+      ],
+      "actions": []
+    },
+    {
+      "id": "search-service-stopped",
+      "cause": "The Windows Search service is stopped, so Outlook search and indexing do not work properly.",
+      "severity": "warning", "confidence": "medium",
+      "when": { "all": [
+        { "path": "system-resources.search.serviceState", "op": "eq", "value": "Stopped" },
+        { "not": { "path": "system-resources.search.startMode", "op": "eq", "value": "Disabled" } }
+      ] },
+      "evidence": [
+        { "label": "Windows Search", "path": "system-resources.search.serviceState" },
+        { "label": "Start mode", "path": "system-resources.search.startMode" }
+      ],
+      "actions": [
+        { "kind": "catalog", "actionCode": "svc.start", "params": { "serviceName": "WSearch" }, "label": "Start the Windows Search service" }
+      ]
+    },
+    {
+      "id": "search-index-large",
+      "cause": "The Windows Search index is very large (over 10 GB). A big index keeps the disk and CPU busy while Outlook is indexed. (The indexing backlog itself cannot be read from the PC.)",
+      "severity": "info", "confidence": "low",
+      "when": { "path": "system-resources.search.indexing.catalogSizeMB", "op": "gt", "value": 10240 },
+      "evidence": [
+        { "label": "Index size (MB)", "path": "system-resources.search.indexing.catalogSizeMB", "format": "number" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Rebuild the search index",
+          "instructions": "Control Panel > Indexing Options > Advanced > Rebuild. Search results are incomplete until it finishes." }
+      ]
+    },
+    {
+      "id": "exchange-network-degraded",
+      // No Exchange host configured (the collector then reports "no targets") or none probed is insufficient data, not "the network is fine".
+      "needs": ["network-probe.targets[*]"],
+      "cause": "The network path to the Exchange servers is poor (packet loss over 2% or average latency over 150 ms).",
+      "severity": "warning", "confidence": "medium",
+      "when": { "any": [
+        { "path": "network-probe.targets[*].lossPercent", "op": "gt", "value": 2 },
+        { "path": "network-probe.targets[*].avgMs", "op": "gt", "value": 150 }
+      ] },
+      "evidence": [
+        { "label": "Exchange host", "path": "network-probe.targets[*].host" },
+        { "label": "Packet loss", "path": "network-probe.targets[*].lossPercent", "format": "percent" },
+        { "label": "Average latency (ms)", "path": "network-probe.targets[*].avgMs", "format": "number" }
+      ],
+      "actions": [
+        { "kind": "catalog", "actionCode": "net.diag", "label": "Run network diagnostics" }
+      ]
+    },
+    {
+      "id": "drive-health-critical",
+      "cause": "A drive in this PC reports Critical health. (Nexora cannot tell which drive holds the OST file; check whether it is the one below.)",
+      "severity": "critical", "confidence": "medium",
+      "when": { "path": "server:diskHealth.worstStatus", "op": "eq", "value": "Critical" },
+      "evidence": [
+        { "label": "Drive", "path": "server:diskHealth.drives[status=Critical].model" },
+        { "label": "Health", "path": "server:diskHealth.drives[status=Critical].healthPercent", "format": "percent" }
+      ],
+      "actions": [
+        { "kind": "manual", "label": "Back up and replace the drive",
+          "instructions": "Open the Drive health tab for details. Back up the user's data now and plan a replacement." }
+      ]
+    },
+    {
+      "id": "drive-health-warning",
+      "cause": "A drive in this PC reports Warning health. (Nexora cannot tell which drive holds the OST file.)",
+      "severity": "warning", "confidence": "medium",
+      "when": { "path": "server:diskHealth.worstStatus", "op": "eq", "value": "Warning" },
+      "evidence": [
+        { "label": "Drive", "path": "server:diskHealth.drives[status=Warning].model" },
+        { "label": "Health", "path": "server:diskHealth.drives[status=Warning].healthPercent", "format": "percent" }
+      ],
+      "actions": []
+    }
+  ]
+}

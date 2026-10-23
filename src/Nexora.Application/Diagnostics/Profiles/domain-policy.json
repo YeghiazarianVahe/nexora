@@ -1,0 +1,69 @@
+{
+  "id": "domain-policy",
+  "name": "Domain / group policy issue",
+  "description": "Checks domain membership and recent group policy errors.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "workstation-checks",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "not-domain",
+      "cause": "This workstation reports that it is not domain joined.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "workstation-checks.domainJoined",
+        "op": "eq",
+        "value": false
+      },
+      "needs": [
+        "workstation-checks.domainJoined"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.domainJoined"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Confirm whether domain membership is expected. Escalate membership changes through your normal approved workflow."
+        }
+      ]
+    },
+    {
+      "id": "policy-errors",
+      "cause": "Group Policy logged errors in the last 24 hours; they may explain policy issues.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "workstation-checks.policyErrors",
+        "op": "gt",
+        "value": 0
+      },
+      "needs": [
+        "workstation-checks.policyErrors"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.policyErrors"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Review Microsoft-Windows-GroupPolicy/Operational events and DNS/connectivity. Run the approved policy refresh action only after investigating the error."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+    "schema":  1,
+    "collector":  "outlook-addins",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "userScope":  "full",
+    "addins":  [
+                   {
+                       "progId":  "TeamsAddin.FastConnect",
+                       "description":  "Microsoft Teams Meeting Add-in for Microsoft Office",
+                       "loadBehavior":  3,
+                       "scope":  "user",
+                       "user":  "jdoe",
+                       "wow6432":  false
+                   }
+               ],
+    "resiliency":  {
+                       "disabledItems":  [
+
+                                         ],
+                       "slowAddins":  [
+
+                                      ]
+                   }
+}

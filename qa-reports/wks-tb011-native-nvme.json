@@ -1,0 +1,43 @@
+{
+  "Key": "DEMO_0002_0000_0000_0000_0000_0000_0002",
+  "Model": "KBG50ZNS256G NVMe KIOXIA 256GB",
+  "Serial": "DEMO_0002_0000_0000_0000_0000_0000_0002",
+  "MediaType": "NVMe",
+  "BusType": "NVMe",
+  "SizeBytes": 256052966400,
+  "HealthStatus": "Healthy",
+  "PredictFailure": false,
+  "TemperatureC": 39,
+  "MaxTemperatureC": 83,
+  "PowerOnHours": 20597,
+  "WearPercent": 0,
+  "LifeLeftPercent": 56,
+  "ReadErrors": null,
+  "WriteErrors": null,
+  "Reallocated": null,
+  "Pending": null,
+  "OfflineUncorrectable": null,
+  "CrcErrors": null,
+  "Attributes": [],
+  "Mapping": {
+    "BusTypeCode": 17,
+    "MediaTypeCode": 4,
+    "SpindleSpeed": 0,
+    "ClassSource": "bus",
+    "PhysicalMatch": "Serial",
+    "HealthSource": "nvme-smart-log",
+    "SmartMatched": false,
+    "HostSmartRecords": 1,
+    "HostDriveCount": 2
+  },
+  "Nvme": {
+    "CriticalWarning": 0,
+    "PercentageUsed": 44,
+    "AvailableSpare": 100,
+    "SpareThreshold": 50,
+    "MediaErrors": 0
+  },
+  "DriveTempWarnC": 83,
+  "DriveTempCritC": 85,
+  "LifetimeMaxTempC": null
+}

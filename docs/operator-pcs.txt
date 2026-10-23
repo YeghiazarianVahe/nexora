@@ -1,0 +1,12 @@
+# Nexora operator PCs (synthetic demo data). WKS-111 = pilot server + first deploy target.
+WKS-111
+WKS-050
+WKS-007
+WKS-036
+WKS-044
+WKS-201
+WKS-122
+WKS-075
+WKS-059
+WKS-051
+WKS-025

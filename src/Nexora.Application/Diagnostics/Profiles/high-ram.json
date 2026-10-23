@@ -1,0 +1,47 @@
+{
+  "id": "high-ram",
+  "name": "High RAM usage",
+  "description": "Checks memory pressure and large processes.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "system-resources",
+      "required": true,
+      "timeoutSeconds": 25
+    },
+    {
+      "id": "pc-slow-processes",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "ram-load",
+      "cause": "Memory usage is above 90%; paging may be contributing to delays.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "system-resources.memory.usedPercent",
+        "op": "gt",
+        "value": 90
+      },
+      "needs": [
+        "system-resources.memory.usedPercent"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "system-resources.memory.usedPercent"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Review Processes by memory usage. Ask the user to close unused applications; consider more RAM if repeated."
+        }
+      ]
+    }
+  ]
+}

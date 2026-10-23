@@ -1,0 +1,160 @@
+{
+    "schema":  1,
+    "collector":  "outlook-events",
+    "collectedUtc":  "2026-10-14T09:30:00Z",
+    "incomplete":  false,
+    "incompleteReason":  null,
+    "errors":  [
+
+               ],
+    "truncated":  false,
+    "elapsedMs":  840,
+    "windowDays":  7,
+    "events":  [
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-08T07:01:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-09T07:02:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-10T07:03:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-11T07:04:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-12T07:05:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-13T07:06:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-07T07:07:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-08T07:08:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-09T07:09:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-10T07:10:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-11T07:11:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-12T07:12:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-13T07:13:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1000,
+                       "provider":  "Application Error",
+                       "timeUtc":  "2026-10-07T07:14:00Z",
+                       "messageShort":  "Outlook crash, module VendorCrm.dll, code 0xc0000005",
+                       "faultingModule":  "VendorCrm.dll",
+                       "exceptionCode":  "0xc0000005",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  1002,
+                       "provider":  "Application Hang",
+                       "timeUtc":  "2026-10-12T10:00:00Z",
+                       "messageShort":  "Outlook stopped responding",
+                       "appVersion":  "16.0.17928.20114"
+                   },
+                   {
+                       "id":  45,
+                       "provider":  "Outlook",
+                       "timeUtc":  "2026-10-12T08:14:35Z",
+                       "messageShort":  "Outlook loaded the following add-in(s): | VendorCrm.OutlookAddIn 9400 ms"
+                   }
+               ],
+    "counts":  {
+                   "crash":  14,
+                   "hang":  1,
+                   "addinSlow":  1,
+                   "dotnetOffice":  0
+               }
+}

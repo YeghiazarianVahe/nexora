@@ -1,0 +1,69 @@
+{
+  "id": "dns-issue",
+  "name": "DNS issue",
+  "description": "Checks configured DNS servers and resolution of the joined domain.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "workstation-checks",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "no-dns",
+      "cause": "No DNS server was reported on an IP-enabled adapter.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "workstation-checks.dnsConfigured",
+        "op": "eq",
+        "value": false
+      },
+      "needs": [
+        "workstation-checks.dnsConfigured"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.dnsConfigured"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Review DHCP and adapter DNS settings. Check the organization's expected DNS servers before considering a cache flush."
+        }
+      ]
+    },
+    {
+      "id": "domain-dns",
+      "cause": "The joined domain did not resolve during the check.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "workstation-checks.domainResolved",
+        "op": "eq",
+        "value": false
+      },
+      "needs": [
+        "workstation-checks.domainResolved"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.domainResolved"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Check the configured corporate DNS servers and domain connectivity. A failed lookup alone does not identify a DNS server fault."
+        }
+      ]
+    }
+  ]
+}

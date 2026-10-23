@@ -1,0 +1,42 @@
+{
+  "id": "user-profile",
+  "name": "User profile issue",
+  "description": "Checks for temporary user profile status without exposing system profiles.",
+  "version": 1,
+  "collectors": [
+    {
+      "id": "workstation-checks",
+      "required": true,
+      "timeoutSeconds": 25
+    }
+  ],
+  "rules": [
+    {
+      "id": "temporary-profile",
+      "cause": "Windows reports at least one temporary user profile.",
+      "severity": "warning",
+      "confidence": "medium",
+      "when": {
+        "path": "workstation-checks.temporaryProfiles",
+        "op": "gt",
+        "value": 0
+      },
+      "needs": [
+        "workstation-checks.temporaryProfiles"
+      ],
+      "evidence": [
+        {
+          "label": "Observed value",
+          "path": "workstation-checks.temporaryProfiles"
+        }
+      ],
+      "actions": [
+        {
+          "kind": "manual",
+          "label": "Recommended next steps",
+          "instructions": "Inspect the user's profile and User Profile Service events. Back up relevant files and verify the signed-in state before considering profile deletion."
+        }
+      ]
+    }
+  ]
+}
